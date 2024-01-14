@@ -36,9 +36,9 @@ export default defineComponent({
             grades: gradeStore.grades,
         }
     },
-    async mounted() {
-        await taskStore.updateTags();
-        const data = await gradeStore.updateGrade(taskStore.tags, taskStore.tasks);
+    mounted() {
+        taskStore.updateTags();
+        const data = gradeStore.updateGrade(taskStore.tags, taskStore.tasks);
         this.global = data.globalGrade;
         this.grades = data.grades;
     },

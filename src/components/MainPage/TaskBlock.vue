@@ -32,7 +32,7 @@
 <script lang="ts">
 import { type PropType, defineComponent } from 'vue';
 import { Tag, Task } from '@/types';
-import { icons, statuses } from '@/main';
+import { statuses } from '@/main';
 
 export default defineComponent({
     props: {

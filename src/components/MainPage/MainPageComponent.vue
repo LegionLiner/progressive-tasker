@@ -18,6 +18,9 @@
                 <div>
                     <Button @click="$router.push(`/grade`)">Грейды</Button>
                 </div>
+                <div class="length">
+                    {{ completed }} / {{ filteredTasks.length }}
+                </div>
                 <div class="filters">
                     <MultiSelect :items="tagsArray" @set-selected="setTags" :labels='["тег", "тега", "тегов", "теги"]'></MultiSelect>
                     <MultiSelect :items="statuses" @set-selected="setStatuses" :labels='["статус", "статуса", "статусов", "статусы"]'></MultiSelect>
@@ -95,8 +98,8 @@ export default defineComponent({
         }
     },
     methods: {
-        createTask(task: Task): void {
-            this.$router.replace(`/create`)
+        createTask(): void {
+            this.$router.replace(`/create`);
         },
         deleteTask(title: string): void {     
             this.tasks = taskStore.removeTask(title);
@@ -137,6 +140,13 @@ export default defineComponent({
                     value: tag
                 })
             })
+            return result;
+        },
+        completed() {
+            let result = 0;
+            this.filteredTasks.forEach((task) => {
+                if (task.status === 'done') result++
+            }); 
             return result;
         }
     },
@@ -211,6 +221,11 @@ export default defineComponent({
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+        }
+        .length {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
         }
         .filters {
             display: flex;

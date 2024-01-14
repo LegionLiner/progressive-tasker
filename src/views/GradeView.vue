@@ -7,7 +7,7 @@ import { defineComponent } from 'vue';
 import GradePageComponent from '@/components/GradePageComponent.vue';
 
 export default defineComponent({
-    name: 'MainView',
+    name: 'GradeView',
     components: {
         GradePageComponent,
     }
