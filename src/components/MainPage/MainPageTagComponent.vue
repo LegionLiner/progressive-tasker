@@ -10,13 +10,16 @@
                 </div>
             </div>
             <div class="add_task">
-                <Button :width="'full'">Новая таска</Button>
+                <Button :width="'full'" @click="createTask">Новая таска</Button>
             </div>
         </div>
         <div class="task_viewer">
             <div class="filters-block">
                 <div>
                     <Button @click="$router.push(`/grade`)">Грейды</Button>
+                </div>
+                <div class="length">
+                    {{ completed }} / {{ filteredTasks.length }}
                 </div>
                 <div class="filters">
                     <MultiSelect :items="statuses" @set-selected="setStatuses" :labels='["статус", "статуса", "статусов", "статусы"]'></MultiSelect>
@@ -95,6 +98,9 @@ export default defineComponent({
         }
     },
     methods: {
+        createTask(): void {
+            this.$router.replace(`/create`)
+        },
         filterTasks(tags: string[], statuses: Status[], sort: Priority): void {
             this.filteredTasks = taskStore.getFilteredTasks(tags, statuses, sort)
         },
@@ -120,6 +126,13 @@ export default defineComponent({
                     value: tag
                 })
             })
+            return result;
+        },
+        completed() {
+            let result = 0;
+            this.filteredTasks.forEach((task) => {
+                if (task.status === 'done') result++
+            }); 
             return result;
         }
     },
@@ -209,6 +222,11 @@ export default defineComponent({
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+        }
+        .length {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
         }
         .filters {
             display: flex;

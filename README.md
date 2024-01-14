@@ -1,5 +1,7 @@
 # progressive-tasker
+Таскер, в котором можно удобно распределить свои задачи. С фильтрацией, сортировкой, системой грейда (автоматической), с маршрутизацией на Vue Router и хранилищем на Pinia.
 
+![App](src/assets/image.png)
 ## Project setup
 ```
 npm install
@@ -14,6 +16,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

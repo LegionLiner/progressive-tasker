@@ -90,6 +90,9 @@
                                 <div v-else @click="paragraph.editing.name = true">
                                     {{ paragraph.name }}
                                 </div>
+                                <svg @click="deleteParagraph(paragraph)" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                    <path d="M10 2L2 10M10 10L2 2" stroke="#DBDEDF" stroke-width="2.84868" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </div>
                             <div class="paragraph-close">
                                 <svg @click="paragraph.show = !paragraph.show" :class="{ 'reversed':  !paragraph.show }" xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 10 6" fill="none">
@@ -111,11 +114,14 @@
                                     <Checkbox v-if="paragraph.done" :checked="true" @check="subparagraph.done = $event; checkSubparagraph(paragraph)"></Checkbox>
                                     <Checkbox v-else :checked="subparagraph.done" @check="subparagraph.done = $event; checkSubparagraph(paragraph)"></Checkbox>
                                     <div v-if="subparagraph.editing?.name">
-                                    <Input :value="subparagraph.name" @input="subparagraph.name = $event" @keyup.enter="subparagraph.editing.name = false"></Input>
-                                </div>
-                                <div v-else @click="subparagraph.editing.name = true">
-                                    {{ subparagraph.name }}
-                                </div>
+                                        <Input :value="subparagraph.name" @input="subparagraph.name = $event" @keyup.enter="subparagraph.editing.name = false"></Input>
+                                    </div>
+                                    <div v-else @click="subparagraph.editing.name = true">
+                                        {{ subparagraph.name }}
+                                    </div>
+                                    <svg @click="deleteSubparagraph(paragraph, subparagraph)" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                        <path d="M10 2L2 10M10 10L2 2" stroke="#DBDEDF" stroke-width="2.84868" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
                                 </div>
                                 <div class="subparagraph-description">
                                     <div v-if="subparagraph.editing?.description">
@@ -250,6 +256,18 @@ export default defineComponent({
                 if (!subparagraph.done) bool = false;
             });
             paragraph.done = bool;
+            const index = this.task.paragraphs.findIndex((_paragraph) => _paragraph.name == paragraph.name);
+            this.task.paragraphs.splice(index, 1, paragraph);
+            this.setData(); 
+        },
+        deleteParagraph(paragraph: Paragraph): void {
+            const index = this.task.paragraphs.findIndex((_paragraph) => _paragraph.name == paragraph.name);
+            this.task.paragraphs.splice(index, 1);
+            this.setData(); 
+        },
+        deleteSubparagraph(paragraph: Paragraph, subparagraph: Subparagraph): void {
+            const subIndex = paragraph.subparagraphs.findIndex((_subparagraph) => _subparagraph.name == subparagraph.name);
+            paragraph.subparagraphs.splice(subIndex, 1);
             const index = this.task.paragraphs.findIndex((_paragraph) => _paragraph.name == paragraph.name);
             this.task.paragraphs.splice(index, 1, paragraph);
             this.setData(); 
@@ -446,6 +464,9 @@ export default defineComponent({
 
                 &::-webkit-scrollbar {
                     width: 0px;
+                }
+                svg {
+                    cursor: pointer;
                 }
 
                 .paragraph {

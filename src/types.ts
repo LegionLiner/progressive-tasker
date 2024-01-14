@@ -2,6 +2,7 @@ export interface Select {
     value: string | boolean,
     title: string
 }
+
 export interface Tag { 
     type: 'image' | 'string',
     value: string
@@ -20,6 +21,7 @@ export interface Subparagraph {
         description: false
     }
 }
+
 export interface Paragraph {
     name: string,
     description: string,

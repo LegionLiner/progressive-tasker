@@ -12,11 +12,10 @@ export const useTaskStore = defineStore("taskStore", {
       tasks: tasks as Task[]
   }),
   actions: {
-    addTask(task: Task): Task[] {
+    addTask(task: Task): void {
       this.tasks.push(task);
       localStorage.setItem('tasks', JSON.stringify(this.tasks));
       gradeStore.updateGrade(this.updateTags(), this.tasks);
-      return this.tasks;
     },
     removeTask(title: string): Task[] {
       const index = this.tasks.findIndex((_task) => _task.title == title);
@@ -33,7 +32,6 @@ export const useTaskStore = defineStore("taskStore", {
         this.tasks[index] = task;
       }
       localStorage.setItem('tasks', JSON.stringify(this.tasks));
-
       gradeStore.updateGrade(this.updateTags(), this.tasks);
       return this.tasks;
     },
