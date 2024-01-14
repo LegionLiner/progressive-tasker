@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="all-grades">
-                <div v-for="grade in grades" class="grade">
+                <div v-for="grade in grades" class="grade" @click="$router.push(`/tags/${grade.name}`)">
                     <div class="grade-name">
                         <span>{{ grade?.name }}</span>
                     </div>
@@ -74,6 +74,7 @@ export default defineComponent({
             flex-direction: column;
             gap: 20px;
             box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
 
             .grade-name {
                 display: flex;
