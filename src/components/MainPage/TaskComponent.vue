@@ -303,6 +303,12 @@ export default defineComponent({
     padding: 20px;
     box-sizing: border-box;
 
+    @media (width < 900px) {
+        & {
+            height: 100%;
+        }
+    }
+
     .task-body {
         color: white;
         background: #241450;
@@ -315,6 +321,12 @@ export default defineComponent({
         gap: 100px;
         padding: 35px;
         box-sizing: border-box;
+
+        @media (width < 900px) {
+            & {
+                flex-direction: column;
+            }
+        }
 
         .left-part {
             display: flex;
@@ -329,6 +341,12 @@ export default defineComponent({
                 align-items: center;
                 padding: 10px 25px;
                 box-sizing: border-box;
+
+                @media (width < 900px) {
+                    & {
+                        width: 100%;
+                    }
+                }
 
                 .value {
                     cursor: pointer;
@@ -373,11 +391,23 @@ export default defineComponent({
                 border-radius: 20px;
                 padding: 5px;
                 box-sizing: border-box;
+
+                @media (width < 900px) {
+                    & {
+                        width: 100%;
+                    }
+                }
             }
 
             .header {
                 width: 400px;
                 box-sizing: border-box;
+
+                @media (width < 900px) {
+                    & {
+                        width: 100%;
+                    }
+                }
 
                 .block {
                     background: #7F4698;
@@ -400,6 +430,12 @@ export default defineComponent({
                 cursor: pointer;
                 transition: background 0.2s ease-in;
 
+                @media (width < 900px) {
+                    & {
+                        width: 100%;
+                    }
+                }
+
                 &:hover {
                     background: #200a58;
                 }
@@ -414,11 +450,13 @@ export default defineComponent({
                         font-size: 18px;
                         line-height: 30px;
                     }
+
                     img {
                         width: 30px;
                     }
                 }
             }
+
             .description {
                 width: 400px;
                 height: 100%;
@@ -428,6 +466,13 @@ export default defineComponent({
                 cursor: pointer;
                 transition: background 0.2s ease-in;
 
+                @media (width < 900px) {
+                    & {
+                        width: 100%;
+                        height: 400px;
+                    }
+                }
+
                 p {
                     margin: 20px;
                 }
@@ -435,6 +480,10 @@ export default defineComponent({
                 &:hover {
                     background: #835796;
                 }
+            }
+
+            .save-button {
+                width: 100%;
             }
         }
 
@@ -447,6 +496,13 @@ export default defineComponent({
             background: #7F4698;
             overflow-y: auto;
             width: 100%;
+
+            @media (width < 900px) {
+                & {
+                    box-sizing: border-box;
+                    gap: 20px;
+                }
+            }
 
             &::-webkit-scrollbar {
                 width: 0px;
@@ -461,12 +517,14 @@ export default defineComponent({
                 gap: 10px;
                 max-height: 700px;
                 overflow-y: auto;
+                @media (width < 700px) {
+                & {
+                    font-size: 14px;
+                }
+            }
 
                 &::-webkit-scrollbar {
                     width: 0px;
-                }
-                svg {
-                    cursor: pointer;
                 }
 
                 .paragraph {
@@ -481,14 +539,17 @@ export default defineComponent({
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
+
                         .paragraph-name {
                             display: flex;
                             gap: 20px;
                             align-items: center;
                         }
+
                         .paragraph-close svg {
                             margin-right: 10px;
                             cursor: pointer;
+
                             &.reversed {
                                 transform: rotate(180deg);
                             }

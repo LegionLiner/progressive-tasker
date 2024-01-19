@@ -8,7 +8,8 @@
                             Название:
                         </div>
                         <div v-if="editing.title" class="value">
-                            <Input :value="task.title" @input="task.title = $event" @keyup.enter="editing.title = false"></Input>
+                            <Input :value="task.title" @input="task.title = $event"
+                                @keyup.enter="editing.title = false"></Input>
                         </div>
                         <div v-else @click="editing.title = true" class="value">
                             {{ task.title }}
@@ -21,10 +22,10 @@
                             Приоритет:
                         </div>
                         <div v-if="editing.priority" class="value">
-                            <MultiSelect 
-                            :items="[{ title: 'Высокиий', value: 'high' }, { title: 'Средний', value: 'medium' }, { title: 'Низкий', value: 'low' }]" 
-                            :multiselect="false"
-                            @set-selected="task.priority = $event; editing.priority = false"></MultiSelect>
+                            <MultiSelect
+                                :items="[{ title: 'Высокиий', value: 'high' }, { title: 'Средний', value: 'medium' }, { title: 'Низкий', value: 'low' }]"
+                                :multiselect="false" @set-selected="task.priority = $event; editing.priority = false">
+                            </MultiSelect>
                         </div>
                         <div v-else class="value" @click="editing.priority = true">
                             <img v-if="task.priority == 'high'" src="../assets/high.svg">
@@ -37,10 +38,10 @@
                             Статус:
                         </div>
                         <div v-if="editing.status" class="value">
-                            <MultiSelect 
-                            :items="[{ title: 'Выполнен', value: 'done' }, { title: 'В процессе', value: 'in progress' }, { title: 'Не начат', value: 'not started' }]" 
-                            :multiselect="false"
-                            @set-selected="task.status = $event; editing.status = false"></MultiSelect>
+                            <MultiSelect
+                                :items="[{ title: 'Выполнен', value: 'done' }, { title: 'В процессе', value: 'in progress' }, { title: 'Не начат', value: 'not started' }]"
+                                :multiselect="false" @set-selected="task.status = $event; editing.status = false">
+                            </MultiSelect>
                         </div>
                         <div v-else class="value" @click="editing.status = true"
                             :class="{ 'green': task.status == 'done', 'yellow': task.status == 'in progress', 'red': task.status == 'not started' }">
@@ -52,7 +53,8 @@
                             Учет в общем грейде:
                         </div>
                         <div v-if="editing.in_grade" class="value">
-                            <Checkbox :checked="task.in_grade" @check="task.in_grade = $event; editing.in_grade = false"></Checkbox>
+                            <Checkbox :checked="task.in_grade" @check="task.in_grade = $event; editing.in_grade = false">
+                            </Checkbox>
                         </div>
                         <div v-else class="value" @click="editing.in_grade = true">
                             {{ task.in_grade ? 'Да' : 'Нет' }}
@@ -61,20 +63,22 @@
                 </div>
                 <div class="tags-wrapper" @click="editing.tags = true;">
                     <div v-if="editing.tags" class="tags">
-                        <Input :value="tagsString" @input="tagsString = $event" @keyup.enter="setTags" :forTags="true"></Input>
+                        <Input :value="tagsString" @input="tagsString = $event" @keyup.enter="setTags"
+                            :forTags="true"></Input>
                     </div>
                     <div v-else-if="!tagsString" class="tags">
                         <span class="tag">Добавить теги</span>
                     </div>
                     <div v-else class="tags">
                         <div class="tag" v-for="tag in tags">
-                            <img v-if="tag.type =='image'"  :src="tag.value" class="tag">
+                            <img v-if="tag.type == 'image'" :src="tag.value" class="tag">
                             <p v-else>{{ tag.value }}</p>
                         </div>
                     </div>
                 </div>
                 <div v-if="editing.description" class="description">
-                    <MultilineInput :value="task.description" @input="task.description = $event" @keyup.enter="editing.description = false"></MultilineInput>
+                    <MultilineInput :value="task.description" @input="task.description = $event"
+                        @keyup.enter="editing.description = false"></MultilineInput>
                 </div>
                 <div v-else class="description" @click="editing.description = true">
                     <p>{{ task.description }}</p>
@@ -91,21 +95,25 @@
                             <div class="paragraph-name">
                                 <Checkbox :checked="paragraph.done" @check="paragraph.done = $event"></Checkbox>
                                 <div v-if="paragraph.editing?.name">
-                                    <Input :value="paragraph.name" @input="paragraph.name = $event" @keyup.enter="paragraph.editing.name = false"></Input>
+                                    <Input :value="paragraph.name" @input="paragraph.name = $event"
+                                        @keyup.enter="paragraph.editing.name = false"></Input>
                                 </div>
                                 <div v-else @click="paragraph.editing.name = true">
                                     {{ paragraph.name }}
                                 </div>
                             </div>
                             <div class="paragraph-close">
-                                <svg @click="paragraph.show = !paragraph.show" :class="{ 'reversed':  !paragraph.show }" xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 10 6" fill="none">
-                                    <path d="M1 1L5 5L9 1" stroke="#2E3640" stroke-linecap="round"/>
+                                <svg @click="paragraph.show = !paragraph.show" :class="{ 'reversed': !paragraph.show }"
+                                    xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 10 6"
+                                    fill="none">
+                                    <path d="M1 1L5 5L9 1" stroke="#2E3640" stroke-linecap="round" />
                                 </svg>
                             </div>
                         </div>
                         <div v-if="paragraph.show" class="paragraph-description">
                             <div v-if="paragraph.editing?.description">
-                                <MultilineInput :value="paragraph.description" @input="paragraph.description = $event" @keyup.enter="paragraph.editing.description = false"></MultilineInput>
+                                <MultilineInput :value="paragraph.description" @input="paragraph.description = $event"
+                                    @keyup.enter="paragraph.editing.description = false"></MultilineInput>
                             </div>
                             <div v-else @click="paragraph.editing.description = true">
                                 {{ paragraph.description }}
@@ -116,15 +124,18 @@
                                 <div class="subparagraph-name">
                                     <Checkbox :checked="subparagraph.done" @check="subparagraph.done = $event"></Checkbox>
                                     <div v-if="subparagraph.editing?.name">
-                                    <Input :value="subparagraph.name" @input="subparagraph.name = $event" @keyup.enter="subparagraph.editing.name = false"></Input>
-                                </div>
-                                <div v-else @click="subparagraph.editing.name = true">
-                                    {{ subparagraph.name }}
-                                </div>
+                                        <Input :value="subparagraph.name" @input="subparagraph.name = $event"
+                                            @keyup.enter="subparagraph.editing.name = false"></Input>
+                                    </div>
+                                    <div v-else @click="subparagraph.editing.name = true">
+                                        {{ subparagraph.name }}
+                                    </div>
                                 </div>
                                 <div class="subparagraph-description">
                                     <div v-if="subparagraph.editing?.description">
-                                        <MultilineInput :value="subparagraph.description" @input="subparagraph.description = $event" @keyup.enter="subparagraph.editing.description = false"></MultilineInput>
+                                        <MultilineInput :value="subparagraph.description"
+                                            @input="subparagraph.description = $event"
+                                            @keyup.enter="subparagraph.editing.description = false"></MultilineInput>
                                     </div>
                                     <div v-else @click="subparagraph.editing.description = true">
                                         {{ subparagraph.description }}
@@ -160,11 +171,11 @@ import Input from './UI/Input.vue';
 
 export default defineComponent({
     components: {
-    Button,
-    Checkbox,
-    MultilineInput,
-    MultiSelect,
-    Input
+        Button,
+        Checkbox,
+        MultilineInput,
+        MultiSelect,
+        Input
     },
     data() {
         return {
@@ -196,20 +207,20 @@ export default defineComponent({
             this.editing.tags = false;
             const tags = this.tagsString.trim().split(', ')
             this.task.tags = tags;
-            this.updateTagImages();   
+            this.updateTagImages();
         },
         updateTagImages(): void {
             this.tagsString = '';
             this.tags = [];
-            
+
             this.task.tags.forEach(async (tag) => {
                 this.tagsString += `${tag}, `;
                 const source = tag.toLowerCase().replace('.js', '');
                 try {
                     let i = await import(`../assets/${source}.svg`);
                     this.tags.push({
-                            type: 'image',
-                            value: i.default
+                        type: 'image',
+                        value: i.default
                     });
                 } catch (e) {
                     setTimeout(() => {
@@ -217,9 +228,9 @@ export default defineComponent({
                             type: 'string',
                             value: tag
                         });
-                    }, 0);  
+                    }, 0);
                 }
-            })    
+            })
             this.tagsString = this.tagsString.slice(0, -2);
         },
         addParagraph(): void {
@@ -244,11 +255,11 @@ export default defineComponent({
                     name: false,
                     description: false
                 }
-            });        
+            });
         },
         createTask(): void {
             taskStore.addTask(this.task);
-            this.$router.push('/');  
+            this.$router.push('/');
         }
     },
     watch: {
@@ -269,6 +280,12 @@ export default defineComponent({
     padding: 20px;
     box-sizing: border-box;
 
+    @media (width < 900px) {
+        & {
+            height: 100%;
+        }
+    }
+
     .task-body {
         color: white;
         background: #241450;
@@ -281,6 +298,12 @@ export default defineComponent({
         gap: 100px;
         padding: 35px;
         box-sizing: border-box;
+
+        @media (width < 900px) {
+            & {
+                flex-direction: column;
+            }
+        }
 
         .left-part {
             display: flex;
@@ -295,6 +318,12 @@ export default defineComponent({
                 align-items: center;
                 padding: 10px 25px;
                 box-sizing: border-box;
+
+                @media (width < 900px) {
+                    & {
+                        width: 100%;
+                    }
+                }
 
                 .value {
                     cursor: pointer;
@@ -339,11 +368,23 @@ export default defineComponent({
                 border-radius: 20px;
                 padding: 5px;
                 box-sizing: border-box;
+
+                @media (width < 900px) {
+                    & {
+                        width: 100%;
+                    }
+                }
             }
 
             .header {
                 width: 400px;
                 box-sizing: border-box;
+
+                @media (width < 900px) {
+                    & {
+                        width: 100%;
+                    }
+                }
 
                 .block {
                     background: #7F4698;
@@ -366,6 +407,12 @@ export default defineComponent({
                 cursor: pointer;
                 transition: background 0.2s ease-in;
 
+                @media (width < 900px) {
+                    & {
+                        width: 100%;
+                    }
+                }
+
                 &:hover {
                     background: #200a58;
                 }
@@ -380,11 +427,13 @@ export default defineComponent({
                         font-size: 18px;
                         line-height: 30px;
                     }
+
                     img {
                         width: 30px;
                     }
                 }
             }
+
             .description {
                 width: 400px;
                 height: 100%;
@@ -394,6 +443,13 @@ export default defineComponent({
                 cursor: pointer;
                 transition: background 0.2s ease-in;
 
+                @media (width < 900px) {
+                    & {
+                        width: 100%;
+                        height: 400px;
+                    }
+                }
+
                 p {
                     margin: 20px;
                 }
@@ -402,6 +458,7 @@ export default defineComponent({
                     background: #835796;
                 }
             }
+
             .save-button {
                 width: 100%;
             }
@@ -417,6 +474,13 @@ export default defineComponent({
             overflow-y: auto;
             width: 100%;
 
+            @media (width < 900px) {
+                & {
+                    box-sizing: border-box;
+                    gap: 20px;
+                }
+            }
+
             &::-webkit-scrollbar {
                 width: 0px;
             }
@@ -430,6 +494,11 @@ export default defineComponent({
                 gap: 10px;
                 max-height: 700px;
                 overflow-y: auto;
+                @media (width < 700px) {
+                & {
+                    font-size: 14px;
+                }
+            }
 
                 &::-webkit-scrollbar {
                     width: 0px;
@@ -447,14 +516,17 @@ export default defineComponent({
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
+
                         .paragraph-name {
                             display: flex;
                             gap: 20px;
                             align-items: center;
                         }
+
                         .paragraph-close svg {
                             margin-right: 10px;
                             cursor: pointer;
+
                             &.reversed {
                                 transform: rotate(180deg);
                             }
