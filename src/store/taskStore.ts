@@ -3,7 +3,8 @@ import { gradeStore } from '@/main';
 import { defineStore } from 'pinia';
 
 
-let tasks = localStorage.getItem('tasks') || [] as any;
+let tasks = localStorage.getItem('tasks') || '[]' as any;
+
 if (tasks) tasks = JSON.parse(tasks);
 
 export const useTaskStore = defineStore("taskStore", {
