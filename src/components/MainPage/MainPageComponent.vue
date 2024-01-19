@@ -242,6 +242,9 @@ export default defineComponent({
         gap: 20px;
         padding: 20px 30px 30px 20px;
 
+        @media (width < 700px) {
+            padding: 20px;
+        }
         .filters-block {
             display: flex;
             flex-direction: row;
