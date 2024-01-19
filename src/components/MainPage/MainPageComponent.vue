@@ -113,6 +113,7 @@ export default defineComponent({
         },
         filterTasks(): void {
             const { tags, statuses, sort } = this.filters;
+            localStorage.setItem('filters-tasks', JSON.stringify(this.filters));
             this.filteredTasks = taskStore.getFilteredTasks(tags, statuses, sort);
         },
         setStatuses(statusesList: Status[]): void {
@@ -151,6 +152,9 @@ export default defineComponent({
         }
     },
     mounted() {
+        const filters = JSON.parse(localStorage.getItem('filters-tasks') || "{ tags: [], statuses: [], sort: ''}" as any);
+        this.filters = filters;
+        this.filterTasks();
         this.updateTags();
     }
 });
