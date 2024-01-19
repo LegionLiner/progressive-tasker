@@ -2,15 +2,17 @@
     <div class="task-wrapper">
         <div class="header">
             <div class="title">
-                <svg v-if="!noDelete" @click="$emit('delete-task', task.title)" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M10 2L2 10M10 10L2 2" stroke="#DBDEDF" stroke-width="2.84868" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg v-if="!noDelete" @click="$emit('delete-task', task.title)" xmlns="http://www.w3.org/2000/svg"
+                    width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M10 2L2 10M10 10L2 2" stroke="#DBDEDF" stroke-width="2.84868" stroke-linecap="round"
+                        stroke-linejoin="round" />
                 </svg>
                 <img v-if="task.in_grade" src="../../assets/in_grade.png" title="Учитывается в общем грейде">
                 <h2>{{ task.title }}</h2>
             </div>
             <div class="tags">
                 <div v-for="tag in tags" class="tag">
-                    <img v-if="tag.type =='image'" :src="tag.value">
+                    <img v-if="tag.type == 'image'" :src="tag.value">
                     <span v-else>{{ tag.value }}</span>
                 </div>
             </div>
@@ -38,12 +40,12 @@ export default defineComponent({
     props: {
         task: {
             type: Object as PropType<Task>,
-                required: true,
+            required: true,
         },
         noDelete: {
             type: Boolean as PropType<boolean>,
-                required: false,
-                default: false
+            required: false,
+            default: false
         }
     },
     emits: ['delete-task'],
@@ -61,8 +63,8 @@ export default defineComponent({
                 try {
                     let i = await import(`../../assets/${source}.svg`);
                     this.tags.push({
-                            type: 'image',
-                            value: i.default
+                        type: 'image',
+                        value: i.default
                     });
                 } catch (e) {
                     setTimeout(() => {
@@ -70,13 +72,13 @@ export default defineComponent({
                             type: 'string',
                             value: tag
                         });
-                    }, 0);  
+                    }, 0);
                 }
-            })    
+            })
         }
     },
     watch: {
-        'task.tags': function(): void {
+        'task.tags': function (): void {
             this.updateTagImages();
         }
     },
@@ -93,48 +95,72 @@ export default defineComponent({
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+
         .title {
             display: flex;
             align-items: center;
             gap: 10px;
+
             h2 {
                 margin: 0;
+
+                @media (width < 700px) {
+                    font-size: 17px;
+                }
             }
+
             img {
                 width: 20px;
                 height: 20px;
             }
         }
+
         .tags {
             display: flex;
             gap: 10px;
+
             .tag {
                 display: flex;
                 align-items: center;
             }
+
             img {
                 width: 20px;
             }
+
             span {
                 color: white;
             }
         }
     }
+
     .main {
         padding: 10px;
         font-size: 18px;
+
         .statuses {
             display: flex;
             gap: 10px;
             align-items: center;
+
             p {
                 font-size: 16px;
                 font-weight: 700;
+
+                @media (width < 700px) {
+                    font-size: 13px;
+                }
             }
+
             img {
                 width: 20px;
             }
         }
+
+        .description {
+            @media (width < 700px) {
+                font-size: 14px;
+            }
+        }
     }
-}
-</style>
+}</style>

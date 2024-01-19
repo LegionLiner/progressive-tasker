@@ -134,6 +134,9 @@ export default defineComponent({
         color: white;
         position: relative;
         cursor: pointer;
+        @media (width < 900px) {
+                width: 100%;
+            }
 
         .visible-part {
             padding: 0 10px;

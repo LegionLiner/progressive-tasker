@@ -76,16 +76,29 @@ export default defineComponent({
             box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
             cursor: pointer;
 
+            @media (width < 600px) {
+                & h1 {
+                    font-size: 20px;
+                }
+            }
+
             .grade-name {
                 display: flex;
                 justify-content: space-between;
                 font-weight: 700;
                 letter-spacing: 1px;
+
+                @media (width < 600px) {
+                    & {
+                        font-size: 13px;
+                    }
+                }
             }
 
             .global-grade {
                 width: 100%;
             }
+
             .persentage {
                 width: 100%;
                 height: 8px;
@@ -101,20 +114,35 @@ export default defineComponent({
                     background: #01d8e7b7;
                     border-radius: 20px;
                 }
+
+                @media (width < 600px) {
+                    & {
+                        height: 5px;
+                        padding: 1px;
+                    }
+                }
             }
         }
+
         h1 {
             margin: 10px;
         }
+
         .all-grades {
             display: grid;
             grid-template-columns: auto auto auto;
             gap: 50px;
+
+            @media (width < 700px) {
+                & {
+                    grid-template-columns: auto auto;
+                    gap: 25px;
+                }
+            }
         }
-            
+
         &::-webkit-scrollbar {
             width: 0px;
         }
     }
-}
-</style>
+}</style>

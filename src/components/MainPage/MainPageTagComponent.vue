@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <div class="left_menu">
+        <div class="left_menu" :class="{ 'scrollMenu': showLeftPanel }" @click="showLeftPanel = !showLeftPanel">
             <div class="tags">
                 <div class="tag" @click="$router.replace(`/`)">
                     <Tag :tag="'Главная'" :main="true"></Tag>
@@ -15,8 +15,9 @@
         </div>
         <div class="task_viewer">
             <div class="filters-block">
-                <div>
-                    <Button @click="$router.push(`/grade`)">Грейды</Button>
+                <div class="filter-buttons">
+                    <Button v-if="width" :width="'full'" @click="showLeftPanel = !showLeftPanel">Меню</Button>
+                    <Button :width="'full'" @click="$router.push(`/grade`)">Грейды</Button>
                 </div>
                 <div class="length">
                     {{ completed }} / {{ filteredTasks.length }}
@@ -94,7 +95,9 @@ export default defineComponent({
                 tags: [this.$route.params.tag] as string[],
                 statuses: [] as Status[],
                 sort: '' as Priority,
-            }
+            },
+            width: window.innerWidth <= 600,
+            showLeftPanel: true
         }
     },
     methods: {
@@ -147,6 +150,9 @@ export default defineComponent({
         },
     },
     mounted() {
+        if (window.innerWidth <= 600) {
+            this.showLeftPanel = false;
+        }
         this.currentTag = this.$route.params.tag as string;
         this.filters.tags = [this.currentTag];
         const tasks = taskStore.getFilteredTasks([this.currentTag], [], null) as Task[];
@@ -165,6 +171,8 @@ export default defineComponent({
     display: flex;
     flex-direction: row;
     gap: 30px;
+    position: relative;
+    overflow-y: hidden;
 
     .left_menu {
         width: 20%;
@@ -174,6 +182,15 @@ export default defineComponent({
         justify-content: space-between;
         padding: 15px;
 
+        @media (width < 600px) {
+            position: absolute;
+            z-index: 1000;
+            height: 100dvh;
+            box-sizing: border-box;
+            width: 200px;
+            left: -200px;
+            transition: left 0.3s ease-in-out;
+        }
         .tags {
             display: flex;
             flex-direction: column;
@@ -209,6 +226,10 @@ export default defineComponent({
                 }
             }
         }
+
+        &.scrollMenu {
+            left: 0;
+        }
     }
     .task_viewer {
         width: 100%;
@@ -222,6 +243,22 @@ export default defineComponent({
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+
+            @media (width < 1300px) {
+                flex-direction: column;
+                gap: 20px;
+            }
+            @media (width < 900px) {
+                gap: 10px;
+            }
+            @media (width < 600px) {
+                .filter-buttons {
+                    width: 100%;
+                    display: flex; 
+                    justify-content: space-between;
+                    gap: 20px;
+                }
+            }
         }
         .length {
             color: white;
@@ -233,6 +270,12 @@ export default defineComponent({
             gap: 20px;
             justify-content: flex-end;
             padding-right: 20px;
+
+            @media (width < 900px) {
+                flex-direction: column;
+                gap: 5px;
+                width: 100%;
+            }
         }
         .tasks {
             background: #241450;
@@ -261,6 +304,7 @@ export default defineComponent({
                     transform: scale(1.01);
                 }
             }
+
             .empty {
                 width: 100%;
                 color: white;
@@ -269,9 +313,11 @@ export default defineComponent({
                 justify-content: center;
                 align-items: center;
             }
+
             &::-webkit-scrollbar {
                 width: 0px;
             }
+
         }
     }
 }
