@@ -162,7 +162,12 @@ export default defineComponent({
         await fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api')
         .then(res => res.json())
         .then(res => data = res)
-        taskStore.tasks = JSON.parse(data);
+        try {
+            taskStore.tasks = JSON.parse(data);
+        } catch (e) {
+            // @ts-ignore
+            taskStore.tasks = JSON.parse(localStorage.getItem('tasks'));
+        }
 
         this.filterTasks();
         this.updateTags();

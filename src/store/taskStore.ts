@@ -18,6 +18,7 @@ export const useTaskStore = defineStore("taskStore", {
         }),
         body: JSON.stringify(this.tasks)
       })
+      localStorage.setItem('tasks', JSON.stringify(this.tasks));
       gradeStore.updateGrade(this.updateTags(), this.tasks);
     },
     removeTask(title: string): Task[] {
@@ -33,6 +34,7 @@ export const useTaskStore = defineStore("taskStore", {
         }),
         body: JSON.stringify(this.tasks)
       })
+      localStorage.setItem('tasks', JSON.stringify(this.tasks));
       gradeStore.updateGrade(this.updateTags(), this.tasks);
       return this.tasks;
     },
@@ -49,6 +51,7 @@ export const useTaskStore = defineStore("taskStore", {
         }),
         body: JSON.stringify(this.tasks)
       })
+      localStorage.setItem('tasks', JSON.stringify(this.tasks));
       gradeStore.updateGrade(this.updateTags(), this.tasks);
       return this.tasks;
     },
