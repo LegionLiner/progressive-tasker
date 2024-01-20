@@ -241,7 +241,6 @@ export default defineComponent({
         @media (width < 700px) {
             padding: 20px;
         }
-
         .filters-block {
             display: flex;
             flex-direction: row;

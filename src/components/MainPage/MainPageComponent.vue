@@ -116,7 +116,6 @@ export default defineComponent({
         },
         filterTasks(): void {
             const { tags, statuses, sort } = this.filters;
-            localStorage.setItem('filters-tasks', JSON.stringify(this.filters));
             this.filteredTasks = taskStore.getFilteredTasks(tags, statuses, sort);
         },
         setStatuses(statusesList: Status[]): void {
@@ -154,13 +153,17 @@ export default defineComponent({
             return result;
         }
     },
-    mounted() {
+    async mounted() {
         if (window.innerWidth <= 600) {
             this.showLeftPanel = false;
         }
 
-        const filters = JSON.parse(localStorage.getItem('filters-tasks') || "{ tags: [], statuses: [], sort: ''}" as any);
-        this.filters = filters;
+        let data: any = [];
+        await fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api')
+        .then(res => res.json())
+        .then(res => data = res)
+        taskStore.tasks = JSON.parse(data);
+
         this.filterTasks();
         this.updateTags();
     }

@@ -20,3 +20,4 @@ export const statuses = {
     'in progress': 'В процессе',
     'not started': 'Не начат'
 };
+
