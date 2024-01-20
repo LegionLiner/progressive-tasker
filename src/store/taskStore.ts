@@ -2,20 +2,22 @@ import { Task, Status, Priority } from '@/types';
 import { gradeStore } from '@/main';
 import { defineStore } from 'pinia';
 
-
-let tasks = localStorage.getItem('tasks') || '[]' as any;
-
-if (tasks) tasks = JSON.parse(tasks);
-
 export const useTaskStore = defineStore("taskStore", {
-  state: () => ({ 
-      tags: [] as string[],
-      tasks: tasks as Task[]
+  state: () => ({
+    tags: [] as string[],
+    tasks: [] as Task[]
   }),
   actions: {
     addTask(task: Task): void {
       this.tasks.push(task);
-      localStorage.setItem('tasks', JSON.stringify(this.tasks));
+      fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api', {
+        method: 'POST',
+        headers: new Headers({
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify(this.tasks)
+      })
       gradeStore.updateGrade(this.updateTags(), this.tasks);
     },
     removeTask(title: string): Task[] {
@@ -23,7 +25,14 @@ export const useTaskStore = defineStore("taskStore", {
       if (index > -1) {
         this.tasks.splice(index, 1)
       }
-      localStorage.setItem('tasks', JSON.stringify(this.tasks));
+      fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api', {
+        method: 'POST',
+        headers: new Headers({
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify(this.tasks)
+      })
       gradeStore.updateGrade(this.updateTags(), this.tasks);
       return this.tasks;
     },
@@ -32,7 +41,14 @@ export const useTaskStore = defineStore("taskStore", {
       if (index > -1) {
         this.tasks[index] = task;
       }
-      localStorage.setItem('tasks', JSON.stringify(this.tasks));
+      fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api', {
+        method: 'POST',
+        headers: new Headers({
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify(this.tasks)
+      })
       gradeStore.updateGrade(this.updateTags(), this.tasks);
       return this.tasks;
     },
@@ -60,10 +76,10 @@ export const useTaskStore = defineStore("taskStore", {
       if (sort && (sort !== 'medium')) {
         result.sort((a: Task, b: Task) => sortPriority(a, b, sort))
       }
-      
+
       return result;
     },
-    getTask(title: string): Task | undefined {  
+    getTask(title: string): Task | undefined {
       return this.tasks.find((task) => task.title == title);
     }
   },
