@@ -17,15 +17,21 @@
             <div class="filters-block">
                 <div class="filter-buttons">
                     <Button v-if="width" :width="'full'" @click="showLeftPanel = !showLeftPanel">Меню</Button>
+                    <div v-if="width" class="length">
+                        {{ completed }} / {{ filteredTasks.length }}
+                    </div>
                     <Button :width="'full'" @click="$router.push(`/grade`)">Грейды</Button>
                 </div>
-                <div class="length">
+                <div v-if="!width" class="length">
                     {{ completed }} / {{ filteredTasks.length }}
                 </div>
                 <div class="filters">
-                    <MultiSelect :items="tagsArray" @set-selected="setTags" :labels='["тег", "тега", "тегов", "теги"]'></MultiSelect>
-                    <MultiSelect :items="statuses" @set-selected="setStatuses" :labels='["статус", "статуса", "статусов", "статусы"]'></MultiSelect>
-                    <MultiSelect :items="priorities" @set-selected="setSort" :multiselect="false" :labels='["приоритет", "приоритета", "приоритетов", "приоритеты"]'></MultiSelect>
+                    <MultiSelect :items="tagsArray" @set-selected="setTags" :labels='["тег", "тега", "тегов", "теги"]'>
+                    </MultiSelect>
+                    <MultiSelect :items="statuses" @set-selected="setStatuses"
+                        :labels='["статус", "статуса", "статусов", "статусы"]'></MultiSelect>
+                    <MultiSelect :items="priorities" @set-selected="setSort" :multiselect="false"
+                        :labels='["приоритет", "приоритета", "приоритетов", "приоритеты"]'></MultiSelect>
                 </div>
             </div>
             <div v-if="filteredTasks.length > 0" class="tasks">
@@ -104,15 +110,15 @@ export default defineComponent({
         createTask(): void {
             this.$router.replace(`/create`);
         },
-        deleteTask(title: string): void {     
+        deleteTask(title: string): void {
             this.tasks = taskStore.removeTask(title);
-            this.updateTags(); 
-            this.filterTasks();  
+            this.updateTags();
+            this.filterTasks();
         },
         patchTask(task: Task): void {
             this.tasks = taskStore.editTask(task);
-            this.updateTags(); 
-            this.filterTasks();  
+            this.updateTags();
+            this.filterTasks();
         },
         filterTasks(): void {
             const { tags, statuses, sort } = this.filters;
@@ -120,15 +126,15 @@ export default defineComponent({
         },
         setStatuses(statusesList: Status[]): void {
             this.filters.statuses = statusesList;
-            this.filterTasks();  
+            this.filterTasks();
         },
         setTags(tagsList: string[]): void {
             this.filters.tags = tagsList;
-            this.filterTasks();  
+            this.filterTasks();
         },
         setSort(sortBy: Priority): void {
             this.filters.sort = sortBy;
-            this.filterTasks();   
+            this.filterTasks();
         },
         updateTags() {
             this.tags = taskStore.updateTags();
@@ -149,7 +155,7 @@ export default defineComponent({
             let result = 0;
             this.filteredTasks.forEach((task) => {
                 if (task.status === 'done') result++
-            }); 
+            });
             return result;
         }
     },
@@ -160,12 +166,12 @@ export default defineComponent({
 
         let data: any = [];
         await fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api')
-        .then(res => res.json())
-        .then(res => data = res)
-        try {
-            taskStore.tasks = JSON.parse(data);
+            .then(res => res.json())
+            .then(res => data = res)
+        if (data.length) {
+            taskStore.tasks = data;
             localStorage.setItem('tasks', JSON.stringify(data));
-        } catch (e) {
+        } else {
             // @ts-ignore
             taskStore.tasks = JSON.parse(localStorage.getItem('tasks'));
         }
@@ -204,13 +210,14 @@ export default defineComponent({
             left: -200px;
             transition: left 0.3s ease-in-out;
         }
+
         .tags {
             display: flex;
             flex-direction: column;
             gap: 10px;
             max-height: 840px;
             overflow-y: auto;
-            
+
             &::-webkit-scrollbar {
                 width: 0px;
             }
@@ -234,6 +241,7 @@ export default defineComponent({
                     background: #3b0f50;
                     transform: scale(1.01);
                 }
+
                 &.active-tag {
                     background: #130735;
                 }
@@ -244,6 +252,7 @@ export default defineComponent({
             left: 0;
         }
     }
+
     .task_viewer {
         width: 100%;
         display: flex;
@@ -252,8 +261,10 @@ export default defineComponent({
         padding: 20px 30px 30px 20px;
 
         @media (width < 700px) {
-            padding: 20px;
+            padding: 15px;
+            box-sizing: border-box;
         }
+
         .filters-block {
             display: flex;
             flex-direction: row;
@@ -264,23 +275,28 @@ export default defineComponent({
                 flex-direction: column;
                 gap: 20px;
             }
+
             @media (width < 900px) {
                 gap: 10px;
             }
+
             @media (width < 600px) {
                 .filter-buttons {
                     width: 100%;
-                    display: flex; 
+                    display: flex;
                     justify-content: space-between;
-                    gap: 20px;
+                    align-items: center;
+                    gap: 10px;
                 }
             }
         }
+
         .length {
             color: white;
             font-size: 18px;
             font-weight: 700;
         }
+
         .filters {
             display: flex;
             gap: 20px;
@@ -291,25 +307,27 @@ export default defineComponent({
                 flex-direction: column;
                 gap: 5px;
                 width: 100%;
+                padding: 0;
             }
         }
+
         .tasks {
             background: #241450;
             box-shadow: 2px 2px 12px rgba(255, 255, 255, 0.2);
             width: 100%;
             height: 100%;
-            border-radius: 25px;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            padding: 35px; 
+            gap: 10px;
+            padding: 15px;
             box-sizing: border-box;
             overflow-y: auto;
 
             .task {
                 width: 100%;
-                padding: 15px;
-                border-radius: 20px;
+                padding: 10px;
+                border-radius: 15px;
                 background: linear-gradient(#7F4698, #874ba1);
                 box-sizing: border-box;
                 transition: transform 0.2s ease-out;
@@ -336,5 +354,4 @@ export default defineComponent({
 
         }
     }
-}
-</style>
+}</style>
