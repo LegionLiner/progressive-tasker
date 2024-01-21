@@ -320,6 +320,7 @@ export default defineComponent({
     @media (width < 900px) {
         & {
             height: 100%;
+            padding: 15px;
         }
     }
 
@@ -339,6 +340,7 @@ export default defineComponent({
         @media (width < 900px) {
             & {
                 flex-direction: column;
+                padding: 20px;
             }
         }
 
@@ -463,6 +465,11 @@ export default defineComponent({
                         padding: 10px 0 10px 10px;
                         font-size: 18px;
                         line-height: 30px;
+                        @media (width < 900px) {
+                            & {
+                                padding: 7px 0 7px 7px;
+                            }
+                        }
                     }
 
                     img {
@@ -515,6 +522,7 @@ export default defineComponent({
                 & {
                     box-sizing: border-box;
                     gap: 20px;
+                    padding: 10px;
                 }
             }
 
@@ -533,7 +541,7 @@ export default defineComponent({
                 overflow-y: auto;
                 @media (width < 700px) {
                 & {
-                    font-size: 14px;
+                    font-size: 13px;
                 }
             }
 
