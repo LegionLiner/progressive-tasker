@@ -119,6 +119,9 @@ export default defineComponent({
             const { tags, statuses, sort } = this.filters;
             this.filterTasks(tags, statuses, sort);  
         },
+        updateTags() {
+            this.tags = taskStore.updateTags();
+        }
     },
     computed: {
         tagsArray(): Select[] {
@@ -149,16 +152,30 @@ export default defineComponent({
             this.filteredTasks = tasks; 
         },
     },
-    mounted() {
+    async mounted() {
         if (window.innerWidth <= 600) {
             this.showLeftPanel = false;
         }
+
+        let data: any = [];
+        await fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api')
+        .then(res => res.json())
+        .then(res => data = res)
+        try {
+            taskStore.tasks = JSON.parse(data);
+            localStorage.setItem('tasks', JSON.stringify(data));
+        } catch (e) {
+            // @ts-ignore
+            taskStore.tasks = JSON.parse(localStorage.getItem('tasks'));
+        }
+
         this.currentTag = this.$route.params.tag as string;
         this.filters.tags = [this.currentTag];
         const tasks = taskStore.getFilteredTasks([this.currentTag], [], null) as Task[];
         
         this.tasks = tasks;
         this.filteredTasks = tasks;  
+        this.updateTags();
     }
 });
 </script>

@@ -164,6 +164,7 @@ export default defineComponent({
         .then(res => data = res)
         try {
             taskStore.tasks = JSON.parse(data);
+            localStorage.setItem('tasks', JSON.stringify(data));
         } catch (e) {
             // @ts-ignore
             taskStore.tasks = JSON.parse(localStorage.getItem('tasks'));

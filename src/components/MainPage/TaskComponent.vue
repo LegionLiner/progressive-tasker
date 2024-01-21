@@ -276,7 +276,21 @@ export default defineComponent({
     async mounted(): Promise<void> {
         const title = this.$route.params.title as string;
         
-        const task = taskStore.getTask(title) as Task;
+
+        let task = taskStore.getTask(title) as Task;
+        if (!task) {
+            await fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api/task', {
+                method: 'POST',
+                headers: new Headers({
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }),
+                body: JSON.stringify({
+                    title,
+                })
+            }).then(res => res.json()).then(res => task = res)
+        }
+        
         this.task = task;
         this.task?.paragraphs?.forEach((paragraph) => {
             paragraph.show = true;
