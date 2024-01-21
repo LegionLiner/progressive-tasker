@@ -6,8 +6,8 @@ function sendData(data: any): void {
   fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api', {
     method: 'POST',
     headers: new Headers({
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
     }),
     body: JSON.stringify(data)
   })
