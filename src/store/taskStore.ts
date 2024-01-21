@@ -2,6 +2,17 @@ import { Task, Status, Priority } from '@/types';
 import { gradeStore } from '@/main';
 import { defineStore } from 'pinia';
 
+function sendData(data: any): void {
+  fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api', {
+    method: 'POST',
+    headers: new Headers({
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify(data)
+  })
+}
+
 export const useTaskStore = defineStore("taskStore", {
   state: () => ({
     tags: [] as string[],
@@ -10,14 +21,7 @@ export const useTaskStore = defineStore("taskStore", {
   actions: {
     addTask(task: Task): void {
       this.tasks.push(task);
-      fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api', {
-        method: 'POST',
-        headers: new Headers({
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }),
-        body: JSON.stringify(this.tasks)
-      })
+      sendData(this.tasks);
       localStorage.setItem('tasks', JSON.stringify(this.tasks));
       gradeStore.updateGrade(this.updateTags(), this.tasks);
     },
@@ -26,14 +30,7 @@ export const useTaskStore = defineStore("taskStore", {
       if (index > -1) {
         this.tasks.splice(index, 1)
       }
-      fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api', {
-        method: 'POST',
-        headers: new Headers({
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }),
-        body: JSON.stringify(this.tasks)
-      })
+      sendData(this.tasks);
       localStorage.setItem('tasks', JSON.stringify(this.tasks));
       gradeStore.updateGrade(this.updateTags(), this.tasks);
       return this.tasks;
@@ -43,14 +40,7 @@ export const useTaskStore = defineStore("taskStore", {
       if (index > -1) {
         this.tasks[index] = task;
       }
-      fetch('https://nimble-parfait-b70fac.netlify.app/.netlify/functions/api', {
-        method: 'POST',
-        headers: new Headers({
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }),
-        body: JSON.stringify(this.tasks)
-      })
+      sendData(this.tasks);
       localStorage.setItem('tasks', JSON.stringify(this.tasks));
       gradeStore.updateGrade(this.updateTags(), this.tasks);
       return this.tasks;
